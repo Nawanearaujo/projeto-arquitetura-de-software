@@ -1,5 +1,6 @@
 from pathlib import Path
 
+import os
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split #função que separa o dataset em teste e treino
@@ -8,7 +9,6 @@ from sklearn.ensemble import RandomForestClassifier #utilizar o Random Forest do
 import joblib #Bibloetaca para salvar o melhor algoritmo
 from sklearn.metrics import accuracy_score
 import src.preprocessing.clean_data as clean_data
-import sys
 
 dados_pacientes = pd.read_csv(clean_data.clean_and_prepare_data())
 dados_pacientes = dados_pacientes.drop_duplicates()
@@ -49,6 +49,16 @@ def treinar_random_forest(X_treino, Y_treino) -> RandomForestClassifier:
 
   return modelo_forest
 
+def salvar_modelo_campeao(modelo, nome_arquivo: str, pasta_destino: str = 'models/saved'):
+
+    if not os.path.exists(pasta_destino):
+        os.makedirs(pasta_destino)
+
+    caminho_completo = os.path.join(pasta_destino, nome_arquivo)
+
+    # salva o modelo campeão em disco
+    joblib.dump(modelo, caminho_completo)
+
 # Bloco de execução principal
 if __name__ == "__main__":
     try:
@@ -70,8 +80,10 @@ if __name__ == "__main__":
 
         if acuracia_rl >= acuracia_rf:
             print("\n-> Vencedor: Regressão Logística!")
+            salvar_modelo_campeao(modelo_rl, "modelo_regressao_logistica.joblib")
         else:
             print("\n-> Vencedor: Random Forest!")
+            salvar_modelo_campeao(modelo_rf, "modelo_random_forest.joblib")
 
 
         print("\n=== PIPELINE FINALIZADO COM SUCESSO ===")
