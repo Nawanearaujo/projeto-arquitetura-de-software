@@ -8,12 +8,6 @@ from sklearn.linear_model import LogisticRegression #utilizar a regressão logí
 from sklearn.ensemble import RandomForestClassifier #utilizar o Random Forest do Sckit-Learn
 import joblib #Bibloetaca para salvar o melhor algoritmo
 from sklearn.metrics import accuracy_score
-import src.preprocessing.clean_data as clean_data
-
-dados_pacientes = pd.read_csv(clean_data.clean_and_prepare_data())
-dados_pacientes = dados_pacientes.drop_duplicates()
-print(f"\nRestaram {dados_pacientes.shape[0]} linhas reais.")
-print(dados_pacientes.head())
 
 # Dividir os dados em treino (80%) e teste (20%)
 def preparar_e_dividir_dados(dados_pacientes: pd.DataFrame):
@@ -61,7 +55,21 @@ def salvar_modelo_campeao(modelo, nome_arquivo: str, pasta_destino: str = 'model
 
 # Bloco de execução principal
 if __name__ == "__main__":
+    # Caminho do arquivo de features gerado na etapa anterior
+    caminho_features = os.path.join("data", "processed", "heart_disease_features.csv")
     try:
+        # Verifica se o caminho do arquivo de features existe antes de prosseguir com o treinamento
+        if not os.path.exists(caminho_features):
+            raise FileNotFoundError(
+                f"O arquivo '{caminho_features}' não foi encontrado.\n"
+                f"Certifique-se de rodar o script de Engenharia de Features primeiro "
+            )
+        
+        # Carrega o dataset de features para iniciar o processo de treinamento
+        dados_pacientes = pd.read_csv(caminho_features)
+        print("\nPrimeiras linhas do dataset processado carregado com sucesso:")
+        print(dados_pacientes.head())
+
         X_treino, X_teste, Y_treino, Y_teste = preparar_e_dividir_dados(dados_pacientes)
         print("\nTreinando os modelos candidatos...")
         modelo_rl = treinar_regressao_logistica(X_treino, Y_treino)
