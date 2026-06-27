@@ -20,19 +20,29 @@ Para isso, utilizamos o Heart Disease Dataset da UCI Machine Learning Repository
 O repositório segue um padrão modular para separar dados, código-fonte e documentação:
 
 projeto-inteligencia-computacional/
+<br>
 ├── data/
+<br>
 │ ├── raw/ # Dados brutos originais da UCI (.data) e arquivo unificado
+<br>
 │ └── processed/ # Dados limpos, pré-processados e finalizados (.csv)
+<br>
 ├── notebooks/ # Notebooks para Análise Exploratória (EDA)
+<br>
 ├── src/
+<br>
 │ ├── ingestion/ # Scripts de coleta e consolidação inicial de dados
+<br>
 │ ├── preprocessing/ # Rotinas de limpeza avançada e tratamento de nulos
+<br>
 │ ├── features/ # Engenharia de features e transformações matemáticas
+<br>
 │ ├── models/ # Treinamento de algoritmos de Machine Learning
-│ └── evaluation/ # Métricas de validação dos modelos
-├── metrics/ # Gráficos e resultados de avaliação salvos
+<br>
 ├── models_saved/ # Modelos treinados persistidos (joblib/pickle)
+<br>
 ├── requirements.txt # Dependências do projeto
+<br>
 └── README.md # Documentação principal
 
 ---
@@ -127,7 +137,7 @@ No caso da Regressão Logística, a relação é linear, ou seja, o aumento de v
 Já na Random Forest, a relação é não linear. Este algoritmo trabalha com árvores de decisão, que realizam análises mais complexas entre as variáveis. Na prática, se assume que um paciente pode até ter um colesterol alto, mas o risco cardíaco só aparecerá se ele tiver uma idade avançada e um tipo de dor no peito específica.
 
 
-### 4.6 Avaliação, Resultados e Discussão (`src/evaluation/`)
+### 4.6 Avaliação, Resultados e Discussão
 
 Inicialmente, utilizou-se uma base pequena de Cleveland (303 linhas). Com ela, a Regressão Logística tinha vencido, com 80,33% de acurácia contra 75,41% da Random Forest. Isso se justifica porque a Random Forest não tinha dados suficientes e estava sofrendo de Overfitting (decorando a base). 
 
